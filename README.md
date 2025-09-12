@@ -1,5 +1,5 @@
 # TRABAJO-FINAL
-# Integrantes
+## Integrantes
 - Mayra Yulitza Roa Lesmes
 - Isabel Ramirez Sanchez
 - Grace Sabogal Velasco
