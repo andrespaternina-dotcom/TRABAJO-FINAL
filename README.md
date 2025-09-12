@@ -5,8 +5,8 @@
 - Grace Sabogal Velasco
 - Yomar Andres Patenina Agustin
   
-## <font color='157699'> **Operadores algebraicos** </font>
-| Operador| Operación 	| Descripción 	| Ejemplo (a=10 - b=20)|
+## <font color='157699'> **CONÓCENOS** </font>
+| Nombre | Carrera	| Habilidades | Fortalezas | 
 |:---|:---|:---|:---|
 | + | Suma 	| Suma los valores a ambos lados del operador 	| a + b = 30 	|
 | -  | Resta 	| Resta el valor de la derecha al valor que esta a la izquierda 	| a – b = -10 	|
