@@ -8,10 +8,10 @@
 ## <font color='157699'> **Vínculos académicos y descripción** </font>
 | Nombre | Carrera	| Habilidades | Fortalezas | 
 |:---|:---|:---|:---|
-| Isabel Ramirez Sanchez | Ing. Industrial	| Organización	| Adaptabilidad	|
-| Grace Sabogal Velasco | Ing. Industrial	| Escucha Activa	| Paciencia	|
-| Mayra Yulitza Roa Lesmes | Ing. Industrial	| Comunicación	| Creatividad	|
-| Yomar Andres Patenina Agustin | Ing. Industrial	| Aprendizaje Continuo	| Análisis	|
+| Isabel Ramirez Sanchez | Ingeniería Industrial	| Organización	| Adaptabilidad	|
+| Grace Sabogal Velasco | Ingeniería Industrial	| Escucha Activa	| Paciencia	|
+| Mayra Yulitza Roa Lesmes | Ingeniería Industrial	| Comunicación	| Creatividad	|
+| Yomar Andres Patenina Agustin | Ingeniería Industrial	| Aprendizaje Continuo	| Análisis	|
 
 ## Nombre del proyecto y detalles (El proyecctor de la U)
 
