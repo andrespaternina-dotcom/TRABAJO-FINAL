@@ -71,3 +71,4 @@ Ejemplos:
 - Son las propiedades de calidad y restricciones que afectan al sistema, más allá de las funciones específicas.
 
 ## Plan de proyecto
+La descripción de las actividades, el cronograma y el presupuesto con horas programadas se encuentra en el archivo de excel "Presupuesto cinema".
