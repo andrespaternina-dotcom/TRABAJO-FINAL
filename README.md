@@ -19,3 +19,7 @@ Espacio distinado a ofrecer una experiencia cinematográfica única y acogedora 
 y comunidad en general puedan disfrutar de películas de alta calidad, reflexionar sobre temas relevantes y conectarse con otros a través del cine.
 
 Si buscas un lugar para relajarte después de una semana de estudio, aprender algo nuevo o simplemente conectar con otros a través del cine, ¡El Proyector de la U es tu lugar!
+
+## Licencia del software
+
+La licencia que se ha definido con la cual se registrará el software es "MIT LICENCE"
