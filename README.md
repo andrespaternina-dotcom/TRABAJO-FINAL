@@ -23,3 +23,9 @@ Si buscas un lugar para relajarte después de una semana de estudio, aprender al
 ## Licencia del software
 
 La licencia que se ha definido para el registro del software es "MIT License".
+
+## Reporte de visión
+
+## Especificación de requisitos
+
+## Plan de proyecto
