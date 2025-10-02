@@ -22,4 +22,4 @@ Si buscas un lugar para relajarte después de una semana de estudio, aprender al
 
 ## Licencia del software
 
-La licencia que se ha definido con la cual se registrará el software es "MIT LICENCE"
+La licencia que se ha definido con la cual se registrará el software es "MIT License"
