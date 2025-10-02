@@ -13,7 +13,7 @@
 | Mayra Yulitza Roa Lesmes | Ingeniería Industrial	| Comunicación	| Creatividad	|
 | Yomar Andres Patenina Agustin | Ingeniería Industrial	| Aprendizaje Continuo	| Análisis	|
 
-## Nombre del proyecto y detalles (El proyecctor de la UdeA)
+## Nombre del proyecto y detalles (El proyector de la UdeA)
 
 Espacio distinado a ofrecer una experiencia cinematográfica única y acogedora en el Corazón de la UdeA, donde estudiantes, profesores, 
 y comunidad en general puedan disfrutar de películas de alta calidad, reflexionar sobre temas relevantes y conectarse con otros a través del cine.
