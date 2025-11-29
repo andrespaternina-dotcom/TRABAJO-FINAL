@@ -133,3 +133,191 @@ RNF8. Escalabilidad:
 
 ## Plan de proyecto
 La descripción de las actividades, el cronograma y el presupuesto con horas programadas se encuentra en el archivo de excel "Presupuesto cinema".
+##<font color='0416ef'> **Descripción general** </font>
+
+EL PROYECTOR DE LA UdeA es un programa de consola desarrollado en Python que simula la gestión básica de un cine universitario.
+El sistema permite registrar usuarios, consultar funciones del fin de semana, reservar asientos, cancelar reservas, generar reportes administrativos y exportar datos en formato CSV.
+
+Toda la interacción se realiza mediante menús en consola.
+<font color='0416ef'> **Características principales** </font>
+
+*   Registro de usuarios con validaciones automáticas.
+*   Consulta de funciones del fin de semana.
+*   Visualización del mapa de asientos (11×11).
+*   Reserva y cancelación de asientos por documento.
+*   Cálculo automático del precio según tipo de vínculo.
+*   Reporte administrativo completo: ingresos, reservas, usuarios.
+*   Exportación de datos en archivos CSV.
+*   Control de acceso para administradores.
+
+<font color='0416ef'> **¿Cómo ejecutar el sistema?** </font>
+
+Abrir y ejecutar el archivo Python / notebook donde se encuentra el código.
+
+Ejecutar todas las celdas (si está en Colab o Jupyter).
+
+El sistema mostrará el menú principal para comenzar la interacción
+
+📁 Estructura recomendada del proyecto
+el_proyector_udea/
+│── main.py  (o .ipynb)
+│
+└── export/           # Se genera automáticamente al exportar CSV
+    ├── usuarios.csv
+    └── reservas.csv
+
+<font color='0416ef'> **Registro de usuarios** </font>
+
+El sistema solicita:
+
+*   Nombre y apellido
+*   Documento de identificación
+
+Tipo de vínculo:
+
+estudiante
+
+*   Docente
+*   Administrativo
+*   Oficial
+*   Externo
+
+El precio de la boleta se calcula automáticamente según el vínculo, así:
+
+Tipo de vínculo	Precio
+
+*   Estudiante	7500
+*   Docente	10000
+*   Administrativo	8500
+*   Oficial	7000
+*   Externo	15000
+
+<font color='0416ef'> **Validaciones aplicadas** </font>
+
+*   Nombre y apellido deben tener mínimo 3 letras y no contener números.
+*   El documento debe ser numérico y tener entre 3 y 15 dígitos.
+*   El tipo de vínculo debe coincidir con las categorías válidas.
+*   El usuario no debe estar registrado previamente.
+
+<font color='0416ef'> **Funciones del fin de semana** </font>
+
+El sistema incluye 4 funciones programadas:
+
+1. Sábado 16:00 - Cine Clásico I - Sala A
+2. Sábado 19:00 - Cine Contemporáneo - Sala A
+3. Domingo 15:00 - Documental UdeA - Sala B
+4. Domingo 18:00 - Comedia Universitaria - Sala B
+
+El sistema muestra: ID, Día, Hora, Título y Número de sillas disponibles.
+
+<font color='0416ef'> **Mapa de asientos** </font>
+
+El cine dispone de 121 sillas (11 filas x 11 columnas).
+
+Filas representadas por letras A–K.
+
+Columnas 1–11.
+
+Donde:
+
+    ✔ O = asiento libre
+    ❌ X = asiento ocupado
+
+<font color='0416ef'> **Reserva de asientos** </font>
+
+Para reservar:
+*   Ingresar documento del usuario.
+*   Ver funciones disponibles.
+*   Seleccionar ID de la película.
+*   Ver mapa de sillas.
+*   Elegir asiento (ej. B 7).
+
+**Validaciones:**
+
+*   El usuario debe estar registrado.
+*   El asiento debe existir.
+*   El asiento debe estar disponible.
+
+**El sistema genera:**
+
+*   ID de la reserva
+*   Precio según tipo de vínculo
+*   Factura en pantalla
+
+<font color='0416ef'> **Cancelar reserva** </font>
+
+El usuario puede cancelar una reserva activa ingresando documento y ID de la reserva.
+
+**Resultados:**
+
+*   El asiento vuelve a quedar libre
+*   La reserva queda marcada como inactiva
+*   Se actualiza la lista de reservas del usuario
+
+<font color='0416ef'> **Menú administrativo** </font>
+El administrador debe autenticarse con las siguientes credenciales:
+
+*   Usuario: admin
+
+*   Contraseña: udear123
+
+**Funciones disponibles:**
+
+*   Total de reservas registradas
+*   Total de reservas activas
+*   Total pagado
+*   Promedio por venta
+*   Usuario con más reservas
+*   Usuario con menos reservas
+*   Listado de usuarios con cantidad de reservas
+
+<font color='0416ef'> **Exportación a CSV** </font>
+
+El sistema genera automáticamente una carpeta export/ con:
+
+**✔ usuarios.csv**
+
+***Incluye:***
+
+*   documento
+*   nombre
+*   apellido
+*   tipo de vínculo
+*   reservas_count
+
+**✔ reservas.csv**
+
+***Incluye:***
+
+*   id reserva
+*   documento usuario
+*   id película
+*   fila y columna
+*   precio
+*   fecha
+*   estado (activa/cancelada)
+
+<font color='0416ef'> **Problemas comunes** </font>
+
+| Problema | Causa	| Solución |
+|:---|:---|:---|
+| No aparece el menú | No se ejecutó main()	| Ejecutar todas las celdas	|
+| No permite reservar | Usuario no registrado	| Registrar usuario primero	|
+| Asiento marcado como ocupado | Ya reservado	| Elegir otro asiento	|
+| Reportes vacíos | No hay reservas	| Realizar al menos una reserva	|
+|No se exportan archivos | Error en permisos	| Confirmar que la carpeta no esté protegida	|
+
+<font color='0416ef'> **Vínculos académicos y descripción** </font>
+
+**Información del proyecto**
+
+Nombre: EL PROYECTOR DE LA UdeA
+
+Curso: Algoritmia y Programación - 2025-2
+
+Lenguaje: Python
+
+Interacción: Consola
+
+Persistencia: Archivos CSV
+
