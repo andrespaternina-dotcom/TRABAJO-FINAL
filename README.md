@@ -304,7 +304,7 @@ El sistema genera automáticamente una carpeta export/ con:
 
 | Problema | Causa	| Solución |
 |:---|:---|:---|
-| No aparece el menú | No se ejecutó main()	| Ejecutar todas las celdas	|
+| No aparece el menú | No se ejecutó main	| Ejecutar todas las celdas	|
 | No permite reservar | Usuario no registrado	| Registrar usuario primero	|
 | Asiento marcado como ocupado | Ya reservado	| Elegir otro asiento	|
 | Reportes vacíos | No hay reservas	| Realizar al menos una reserva	|
