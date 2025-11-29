@@ -7,9 +7,9 @@
 ## <font color='157699'> **Vínculos académicos y descripción** </font>
 | Nombre | Carrera	| Habilidades | Fortalezas | Edad | Seccional | Semestre | Expectativas con el curso |
 |:---|:---|:---|:---|:---|:---|:---|:---|
-| Isabel Ramirez Sanchez | Ingeniería Industrial	| Organización	| Adaptabilidad	| 21 | Oriente | 5to | Aprender mucho sobre la programación, adquirir conocimientos, conocer su historia y su importancia. |
-| Mayra Yulitza Roa Lesmes | Ingeniería Industrial	| Comunicación	| Creatividad	| 27 | Medellín | 6to | Aprender la sintaxis básica de un lenguaje de programación como lo es Python. Enfrentarme al miedo de no saber programar cosas básicas porque no tengo ningún conocimiento de programación. Y practicar bastante para comprender mejor los temas. |
-| Yomar Andres Patenina Agustin | Ingeniería Industrial	| Aprendizaje Continuo	| Análisis	| 23 | Bajo Cauca | 6to | Iniciar la carrera hacia una programación avanzada con Python, a través de las bases y principios fundamentales que espero conocer de esta, y que a su vez servirán como cautivador para profundizar y especializarme más en este mundo. |
+| Isabel Ramirez Sanchez | Ingeniería Industrial	| Organización	| Adaptabilidad	| 21 | Oriente | 5to | Aprender mucho sobre la programación, adquirir conocimientos, conocer su historia y su importancia.|
+| Mayra Yulitza Roa Lesmes | Ingeniería Industrial	| Comunicación	| Creatividad	| 27 | Medellín | 6to | Aprender la sintaxis básica de un lenguaje de programación como lo es Python. Enfrentarme al miedo de no saber programar cosas básicas porque no tengo ningún conocimiento de programación. Y practicar bastante para comprender mejor los temas.|
+| Yomar Andres Patenina Agustin | Ingeniería Industrial	| Aprendizaje Continuo	| Análisis	| 23 | Bajo Cauca | 6to | Iniciar la carrera hacia una programación avanzada con Python, a través de las bases y principios fundamentales que espero conocer de esta, y que a su vez servirán como cautivador para profundizar y especializarme más en este mundo.|
 
 ## Nombre del proyecto y detalles (El proyector de la UdeA)
 
