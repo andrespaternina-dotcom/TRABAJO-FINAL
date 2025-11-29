@@ -1,0 +1,360 @@
+# El Proyector de la UdeA
+# Trabajo Final - Algoritmia y Programación 2025-2
+# Descripción: Programa de consola para gestionar un Cinema Universitario.
+
+from datetime import datetime
+import csv
+import getpass  # en colab getpass.getpass funciona para ocultar contraseñas (opc.)
+import os
+
+# ---------- CONSTANTES Y CONFIGURACIÓN ----------
+FILAS = 11    # 11 filas
+COLUMNAS = 11 # 11 columnas -> 121 sillas
+TOTAL_SILLAS = FILAS * COLUMNAS
+
+TIPOS_VINCULO = {
+    "estudiante": 7500,
+    "docente": 10000,
+    "administrativo": 8500,
+    "oficial": 7000,
+    "externo": 15000
+}
+
+# Películas de ejemplo (el docente proveerá otras en semana 4)
+PELICULAS_FINDE = [
+    {"id": 1, "dia": "Sábado", "hora": "16:00", "titulo": "Cine Clásico I", "sala": "Sala A"},
+    {"id": 2, "dia": "Sábado", "hora": "19:00", "titulo": "Cine Contemporáneo", "sala": "Sala A"},
+    {"id": 3, "dia": "Domingo", "hora": "15:00", "titulo": "Documental UdeA", "sala": "Sala B"},
+    {"id": 4, "dia": "Domingo", "hora": "18:00", "titulo": "Comedia Universitaria", "sala": "Sala B"},
+]
+
+ADMIN_CREDENTIALS = {"admin": "udear123"}  # ejemplo, en repo poner más seguro o archivo .env
+
+
+# ---------- CLASES ----------
+
+class User:
+    def _init_(self, nombre: str, apellido: str, documento: str, tipo_vinculo: str):
+        self.nombre = nombre.strip().title()
+        self.apellido = apellido.strip().title()
+        self.documento = documento.strip()
+        self.tipo_vinculo = tipo_vinculo.lower()
+        self.reservas = []  # lista de ids de reserva
+
+    def nombre_completo(self):
+        return f"{self.nombre} {self.apellido}"
+
+class Reservation:
+    def _init_(self, reserva_id: int, documento_usuario: str, pelicula_id: int, fila: int, columna: int, precio: int, fecha: str):
+        self.reserva_id = reserva_id
+        self.documento_usuario = documento_usuario
+        self.pelicula_id = pelicula_id
+        self.fila = fila
+        self.columna = columna
+        self.precio = precio
+        self.fecha = fecha  # string ISO
+        self.activa = True
+
+class Cinema:
+    def _init_(self):
+        # generar mapa de asientos: lista de listas con "O"
+        self.asientos = [["O" for _ in range(COLUMNAS)] for _ in range(FILAS)]
+        self.users = {}  # key=documento -> User
+        self.reservas = {}  # key=reserva_id -> Reservation
+        self.next_reserva_id = 1
+
+    # ---------- VALIDACIONES ----------
+    @staticmethod
+    def validar_nombre(nombre):
+        nombre = nombre.strip()
+        if len(nombre) < 3: return False, "El nombre debe tener al menos 3 letras."
+        if any(char.isdigit() for char in nombre): return False, "El nombre no puede contener números."
+        return True, ""
+
+    @staticmethod
+    def validar_apellido(apellido):
+        apellido = apellido.strip()
+        if len(apellido) < 3: return False, "El apellido debe tener al menos 3 letras."
+        if any(char.isdigit() for char in apellido): return False, "El apellido no puede contener números."
+        return True, ""
+
+    @staticmethod
+    def validar_documento(doc):
+        doc = doc.strip()
+        if not doc.isdigit(): return False, "El documento solo permite números."
+        if not (3 <= len(doc) <= 15): return False, "El documento debe tener entre 3 y 15 dígitos."
+        return True, ""
+
+    @staticmethod
+    def validar_vinculo(v):
+        v_lower = v.lower()
+        if v_lower not in TIPOS_VINCULO:
+            opciones = ", ".join(TIPOS_VINCULO.keys())
+            return False, f"Tipo de vínculo inválido. Opciones: {opciones}"
+        return True, ""
+
+    # ---------- USUARIOS ----------
+    def registrar_usuario(self, nombre, apellido, documento, tipo_vinculo):
+        valid, msg = self.validar_nombre(nombre)
+        if not valid: return False, msg
+        valid, msg = self.validar_apellido(apellido)
+        if not valid: return False, msg
+        valid, msg = self.validar_documento(documento)
+        if not valid: return False, msg
+        valid, msg = self.validar_vinculo(tipo_vinculo)
+        if not valid: return False, msg
+
+        if documento in self.users:
+            return False, "El usuario ya está registrado."
+
+        u = User(nombre, apellido, documento, tipo_vinculo)
+        self.users[documento] = u
+        return True, "Usuario registrado con éxito."
+
+    def buscar_usuario(self, documento):
+        return self.users.get(documento)
+
+    # ---------- ASIENTOS Y RESERVAS ----------
+    def mostrar_asientos(self):
+        # imprime el mapa de asientos con indices legibles (filas A-K y columnas 1-11)
+        print("\n   " + " ".join([f"{c+1:2}" for c in range(COLUMNAS)]))
+        for i in range(FILAS):
+            fila_letra = chr(ord('A') + i)
+            print(f"{fila_letra}  " + " ".join(self.asientos[i]))
+
+    def asiento_disponible(self, fila, columna):
+        return self.asientos[fila][columna] == "O"
+
+    def reservar_asiento(self, documento, pelicula_id, fila, columna):
+        if documento not in self.users:
+            return False, "Usuario no registrado."
+        if not (0 <= fila < FILAS and 0 <= columna < COLUMNAS):
+            return False, "Asiento inválido."
+        if not self.asiento_disponible(fila, columna):
+            return False, "Asiento ocupado."
+
+        user = self.users[documento]
+        precio = TIPOS_VINCULO[user.tipo_vinculo]
+        fecha = datetime.now().isoformat()
+
+        reserva = Reservation(self.next_reserva_id, documento, pelicula_id, fila, columna, precio, fecha)
+        self.reservas[self.next_reserva_id] = reserva
+        self.next_reserva_id += 1
+
+        # marcar asiento
+        self.asientos[fila][columna] = "X"
+        user.reservas.append(reserva.reserva_id)
+
+        return True, reserva
+
+    def cancelar_reserva(self, documento, reserva_id):
+        reserva = self.reservas.get(reserva_id)
+        if not reserva:
+            return False, "Reserva no encontrada."
+        if reserva.documento_usuario != documento:
+            return False, "La reserva no pertenece a este usuario."
+        if not reserva.activa:
+            return False, "La reserva ya está cancelada."
+
+        # liberar asiento
+        self.asientos[reserva.fila][reserva.columna] = "O"
+        reserva.activa = False
+
+        # quitar de la lista del usuario
+        u = self.users.get(documento)
+        if u and reserva_id in u.reservas:
+            u.reservas.remove(reserva_id)
+
+        return True, "Reserva cancelada."
+
+    # ---------- CONSULTAS ----------
+    def funciones_fin_de_semana(self):
+        # return lista de películas con sillas disponibles
+        res = []
+        for p in PELICULAS_FINDE:
+            libres = sum(row.count("O") for row in self.asientos)
+            res.append({
+                "id": p["id"],
+                "dia": p["dia"],
+                "hora": p["hora"],
+                "titulo": p["titulo"],
+                "sillas_disponibles": libres
+            })
+        return res
+
+    # ---------- REPORTES ADMIN ----------
+    def reporte_totales(self):
+        total_reservas = sum(1 for r in self.reservas.values() if r.activa)
+        total_pagado = sum(r.precio for r in self.reservas.values() if r.activa)
+        total_tickets = total_reservas  # aquí ticket == reserva activa
+        promedio_venta = total_pagado / total_tickets if total_tickets else 0
+
+        # usuarios con más/menos reservas
+        usuarios_list = list(self.users.values())
+        if usuarios_list:
+            mayor_usuario = max(usuarios_list, key=lambda u: len(u.reservas))
+            menor_usuario = min(usuarios_list, key=lambda u: len(u.reservas))
+        else:
+            mayor_usuario = menor_usuario = None
+
+        return {
+            "total_reservas_registradas": len(self.reservas),
+            "total_reservas_activas": total_reservas,
+            "total_pago_realizado": total_pagado,
+            "promedio_por_venta": promedio_venta,
+            "usuario_mayor_reservas": (mayor_usuario.nombre_completo(), len(mayor_usuario.reservas)) if mayor_usuario else None,
+            "usuario_menor_reservas": (menor_usuario.nombre_completo(), len(menor_usuario.reservas)) if menor_usuario else None,
+            "lista_usuarios": [(u.documento, u.nombre_completo(), len(u.reservas)) for u in usuarios_list]
+        }
+
+    # ---------- EXPORTAR CSV ----------
+    def exportar_csv(self, carpeta="export"):
+        os.makedirs(carpeta, exist_ok=True)
+        # exportar usuarios
+        with open(os.path.join(carpeta, "usuarios.csv"), mode="w", newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(["documento", "nombre", "apellido", "tipo_vinculo", "reservas_count"])
+            for u in self.users.values():
+                writer.writerow([u.documento, u.nombre, u.apellido, u.tipo_vinculo, len(u.reservas)])
+        # exportar reservas
+        with open(os.path.join(carpeta, "reservas.csv"), mode="w", newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(["reserva_id", "documento", "pelicula_id", "fila", "columna", "precio", "fecha", "activa"])
+            for r in self.reservas.values():
+                writer.writerow([r.reserva_id, r.documento_usuario, r.pelicula_id, r.fila, r.columna, r.precio, r.fecha, r.activa])
+        return True, f"Archivos exportados en carpeta '{carpeta}'"
+
+# ---------- FUNCIONES DE INTERFAZ (MENÚ) ----------
+
+def mostrar_menu_principal():
+    print("\n=== EL PROYECTOR DE LA UDEA - MENÚ ===")
+    print("1. Registrar usuario")
+    print("2. Consultar funciones del fin de semana")
+    print("3. Crear reserva")
+    print("4. Cancelar reserva")
+    print("5. Exportar datos (CSV)")
+    print("6. Acceso administrador")
+    print("0. Salir")
+
+def menu_registrar_usuario(cinema: Cinema):
+    print("\n--- Registrar Usuario ---")
+    nombre = input("Nombre: ")
+    apellido = input("Apellido: ")
+    documento = input("Documento: ")
+    print("Tipo de vínculo (estudiante, docente, administrativo, oficial, externo)")
+    tipo = input("Tipo vinculo: ").lower()
+    ok, msg = cinema.registrar_usuario(nombre, apellido, documento, tipo)
+    print(msg)
+
+def menu_consultar_funciones(cinema: Cinema):
+    print("\n--- Funciones fin de semana ---")
+    funciones = cinema.funciones_fin_de_semana()
+    for f in funciones:
+        print(f"ID {f['id']} - {f['dia']} {f['hora']} - {f['titulo']} - Sillas disponibles: {f['sillas_disponibles']}")
+
+def pedir_asiento():
+    print("Seleccione asiento (ej: A 5) - A..K y 1..11")
+    raw = input("Fila Letra y Columna (separadas por espacio): ").strip().split()
+    if len(raw) < 2:
+        return None, None
+    fila_letra = raw[0].upper()
+    try:
+        columna = int(raw[1]) - 1
+        fila = ord(fila_letra) - ord('A')
+        return fila, columna
+    except:
+        return None, None
+
+def menu_crear_reserva(cinema: Cinema):
+    print("\n--- Crear Reserva ---")
+    documento = input("Documento usuario: ")
+    user = cinema.buscar_usuario(documento)
+    if not user:
+        print("Usuario no registrado. ¿Desea registrarse? (s/n)")
+        if input().lower() == 's':
+            menu_registrar_usuario(cinema)
+        return
+    menu_consultar_funciones(cinema)
+    try:
+        pelicula_id = int(input("Ingrese ID de la película: "))
+    except:
+        print("ID inválido.")
+        return
+    cinema.mostrar_asientos()
+    fila, columna = pedir_asiento()
+    if fila is None:
+        print("Asiento inválido.")
+        return
+    ok, result = cinema.reservar_asiento(documento, pelicula_id, fila, columna)
+    if ok:
+        reserva = result
+        print(f"Reserva creada. ID reserva: {reserva.reserva_id}")
+        print(f"Factura -> Usuario: {user.nombre_completo()}, Precio: {reserva.precio}, Asiento: {chr(ord('A')+reserva.fila)}{reserva.columna+1}")
+    else:
+        print("Error en reserva:", result)
+
+def menu_cancelar_reserva(cinema: Cinema):
+    print("\n--- Cancelar Reserva ---")
+    documento = input("Documento usuario: ")
+    user = cinema.buscar_usuario(documento)
+    if not user:
+        print("Usuario no registrado.")
+        return
+    if not user.reservas:
+        print("El usuario no tiene reservas activas.")
+        return
+    print("Reservas del usuario:", user.reservas)
+    try:
+        reserva_id = int(input("Ingrese ID de reserva a cancelar: "))
+    except:
+        print("ID inválido.")
+        return
+    ok, msg = cinema.cancelar_reserva(documento, reserva_id)
+    print(msg)
+
+def menu_admin(cinema: Cinema):
+    print("\n--- Acceso Administrador ---")
+    usuario = input("Usuario: ")
+    # password oculto en consola
+    password = getpass.getpass("Contraseña: ")
+    if ADMIN_CREDENTIALS.get(usuario) != password:
+        print("Credenciales inválidas.")
+        return
+    print("Acceso concedido. Reportes disponibles:")
+    rep = cinema.reporte_totales()
+    print(f"Total reservas registradas (incl. canceladas): {rep['total_reservas_registradas']}")
+    print(f"Total reservas activas: {rep['total_reservas_activas']}")
+    print(f"Total pago realizado: {rep['total_pago_realizado']}")
+    print(f"Promedio por venta: {rep['promedio_por_venta']:.2f}")
+    print("Usuario con más reservas:", rep['usuario_mayor_reservas'])
+    print("Usuario con menos reservas:", rep['usuario_menor_reservas'])
+    print("Lista de usuarios (documento, nombre, count reservas):")
+    for u in rep['lista_usuarios']:
+        print(u)
+
+def main():
+    cinema = Cinema()
+    while True:
+        mostrar_menu_principal()
+        opt = input("Seleccione una opción: ").strip()
+        if opt == "1":
+            menu_registrar_usuario(cinema)
+        elif opt == "2":
+            menu_consultar_funciones(cinema)
+        elif opt == "3":
+            menu_crear_reserva(cinema)
+        elif opt == "4":
+            menu_cancelar_reserva(cinema)
+        elif opt == "5":
+            ok, msg = cinema.exportar_csv()
+            print(msg)
+        elif opt == "6":
+            menu_admin(cinema)
+        elif opt == "0":
+            print("Gracias. Saliendo...")
+            break
+        else:
+            print("Opción inválida.")
+
+if _name_ == "_main_":
+    main()
