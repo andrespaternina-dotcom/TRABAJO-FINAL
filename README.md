@@ -43,7 +43,7 @@ Beneficios
 
 ## Especificación de requisitos
 
-+Requisitos Funcionales (RF): Son las acciones específicas que el sistema debe realizar.+
+**Requisitos Funcionales (RF): Son las acciones específicas que el sistema debe realizar.**
 
 RF1. Registro de usuarios:
 * El sistema debe permitir registrar usuarios solicitando: nombre, apellido, documento y tipo de vínculo con la Universidad.
