@@ -1,15 +1,13 @@
 # TRABAJO-FINAL
 ## Integrantes
 - Isabel Ramirez Sanchez
-- Grace Sabogal Velasco
 - Mayra Yulitza Roa Lesmes
 - Yomar Andres Patenina Agustin
   
 ## <font color='157699'> **Vínculos académicos y descripción** </font>
-| Nombre | Carrera	| Habilidades | Fortalezas | 
+| Nombre | Carrera	| Habilidades | Fortalezas |
 |:---|:---|:---|:---|
-| Isabel Ramirez Sanchez | Ingeniería Industrial	| Organización	| Adaptabilidad	|
-| Grace Sabogal Velasco | Ingeniería Industrial	| Escucha Activa	| Paciencia	|
+| Isabel Ramirez Sanchez | Ingeniería Industrial	| Organización	| Adaptabilidad	| 
 | Mayra Yulitza Roa Lesmes | Ingeniería Industrial	| Comunicación	| Creatividad	|
 | Yomar Andres Patenina Agustin | Ingeniería Industrial	| Aprendizaje Continuo	| Análisis	|
 
