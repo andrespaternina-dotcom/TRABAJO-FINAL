@@ -136,7 +136,7 @@ La descripción de las actividades, el cronograma y el presupuesto con horas pro
 
 ## Manual de usuario
 
-##<font color='0416ef'> **Descripción general** </font>
+**Descripción general**
 
 EL PROYECTOR DE LA UdeA es un programa de consola desarrollado en Python que simula la gestión básica de un cine universitario.
 El sistema permite registrar usuarios, consultar funciones del fin de semana, reservar asientos, cancelar reservas, generar reportes administrativos y exportar datos en formato CSV.
