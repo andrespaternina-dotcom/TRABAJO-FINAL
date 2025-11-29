@@ -94,7 +94,7 @@ RF9. Exportación a CSV:
 * Debe crear automáticamente la carpeta export/ si no existe.
 
 
-Requisitos No Funcionales (RNF): Estos describen cualidades, restricciones y criterios de calidad del sistema.
+**Requisitos No Funcionales (RNF): Estos describen cualidades, restricciones y criterios de calidad del sistema.**
 
 RNF1. Usabilidad:
 * La interfaz debe ser completamente textual e intuitiva.
