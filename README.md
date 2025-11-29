@@ -133,6 +133,9 @@ RNF8. Escalabilidad:
 
 ## Plan de proyecto
 La descripción de las actividades, el cronograma y el presupuesto con horas programadas se encuentra en el archivo de excel "Presupuesto cinema".
+
+## Manual de usuario
+
 ##<font color='0416ef'> **Descripción general** </font>
 
 EL PROYECTOR DE LA UdeA es un programa de consola desarrollado en Python que simula la gestión básica de un cine universitario.
