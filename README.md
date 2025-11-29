@@ -43,30 +43,92 @@ Beneficios
 
 ## Especificación de requisitos
 
-Requisitos funcionales
+Requisitos Funcionales (RF): Son las acciones específicas que el sistema debe realizar.
 
-Son las funciones y comportamientos específicos que el sistema debe cumplir para satisfacer al usuario final. Definen qué debe hacer el software. Se refieren a las acciones, procesos y comportamientos que el sistema debe ejecutar para cumplir con las necesidades del usuario.
+RF1. Registro de usuarios:
+El sistema debe permitir registrar usuarios solicitando: nombre, apellido, documento y tipo de vínculo con la Universidad.
+El sistema debe validar que los datos no estén vacíos, que el nombre y apellido no contengan dígitos y que el documento sea numérico y esté en el rango permitido.
+El sistema debe impedir registrar un documento duplicado.
 
-Ejemplos:
+RF2. Gestión del tipo de vínculo:
+El sistema debe asignar automáticamente el precio de la boleta según el tipo de vínculo: estudiante, docente, administrativo, oficial o externo.
 
-- El sistema debe permitir a los usuarios registrarse con correo electrónico y contraseña.
-- El sistema debe validar credenciales de acceso contra la base de datos.
-- El sistema debe generar reportes en PDF descargables.
-- El sistema debe enviar notificaciones por correo electrónico al completar una transacción.
+RF3. Consulta de funciones del fin de semana
+El sistema debe mostrar las funciones disponibles (sábado y domingo) indicando: día, hora, título y sala.
+El sistema debe calcular y mostrar la cantidad de sillas disponibles para cada función.
 
-Requisitos no funcionales
+RF4. Visualización del mapa de asientos:
+El sistema debe mostrar una matriz de 11x11 con el estado de cada asiento:
+“O” → asiento disponible
+“X” → asiento reservado
+Las filas deben identificarse con letras (A–K) y las columnas con números (1–11).
 
-Establecen cómo debe operar el software más allá de sus funciones específicas. Son criterios de calidad que determinan la experiencia de uso y el desempeño del sistema.
-Definen criterios de calidad y restricciones que afectan al software más allá de sus funciones principales.
+RF5. Crear reservas (compra de entradas):
+El usuario registrado debe poder seleccionar una función y un asiento disponible.
+El sistema debe verificar disponibilidad antes de confirmar la reserva.
+El sistema debe generar un ID único de reserva.
+El sistema debe emitir una factura simple con: nombre del usuario, precio pagado y asiento seleccionado.
+El asiento debe cambiar de estado de “O” a “X”.
 
-Ejemplos:
+RF6. Cancelación de reservas:
+El usuario debe poder cancelar una reserva activa ingresando su documento y el ID de la reserva.
+El asiento debe cambiar nuevamente a “O”.
+El usuario no podrá cancelar reservas de otros usuarios.
 
-- Rendimiento: El sistema debe procesar al menos 1000 peticiones por minuto.
-- Seguridad: Todas las comunicaciones deben estar cifradas mediante HTTPS.
-- Usabilidad: La interfaz debe ser accesible siguiendo la norma WCAG 2.1.
-- Fiabilidad: El sistema debe garantizar una disponibilidad mínima del 99.9% anual.
-- Compatibilidad: La aplicación debe funcionar en Windows, Linux y MacOS.
-- Son las propiedades de calidad y restricciones que afectan al sistema, más allá de las funciones específicas.
+RF7. Acceso administrador:
+El sistema debe permitir que el administrador ingrese con usuario y contraseña para ver reportes.
+Las credenciales deben verificarse.
+
+RF8. Reportes del administrador:
+El sistema debe mostrar:
+Total de reservas registradas (incluye canceladas).
+Total de reservas activas.
+Total pagado por las reservas activas.
+Promedio de venta por ticket.
+Usuario con mayor número de reservas.
+Usuario con menor número de reservas.
+Listado de usuarios con su número de reservas.
+
+RF9. Exportación a CSV:
+El sistema debe exportar a archivos .csv la información de usuarios y reservas.
+Debe crear automáticamente la carpeta export/ si no existe.
+
+Requisitos No Funcionales (RNF): Estos describen cualidades, restricciones y criterios de calidad del sistema.
+
+RNF1. Usabilidad:
+La interfaz debe ser completamente textual e intuitiva.
+Los menús deben mostrar opciones numeradas.
+Los mensajes deben guiar al usuario de manera clara y directa.
+
+RNF2. Rendimiento:
+El sistema debe responder de forma inmediata a las solicitudes del usuario.
+La búsqueda de usuarios, asientos y reservas debe ejecutarse en tiempo constante o cercano (uso de diccionarios y listas optimizadas).
+
+RNF3. Confiabilidad:
+El sistema debe manejar entradas incorrectas sin cerrarse inesperadamente.
+La información de asientos reservados debe mantenerse coherente incluso en cancelaciones.
+
+RNF4. Seguridad:
+El módulo de administrador debe requerir autenticación con usuario y contraseña.
+Las contraseñas no deben mostrarse mientras son digitadas (uso de getpass).
+Los datos exportados deben respetar la integridad del formato.
+
+RNF5. Portabilidad:
+El sistema debe ejecutarse correctamente en cualquier entorno que soporte Python 3.x (Google Colab, Windows, Linux, Mac).
+No debe depender de librerías externas que no estén en la biblioteca estándar de Python.
+
+RNF6. Mantenibilidad:
+El código debe estar modularizado usando clases y funciones.
+Las responsabilidades deben estar claramente separadas: usuarios, reserva, administración.
+El código debe incluir comentarios que faciliten comprensión y futuras ampliaciones.
+
+RNF7. Compatibilidad:
+Los archivos CSV generados deben ser compatibles con Excel, LibreOffice y Google Sheets.
+El sistema debe ser compatible con el flujo de uso del repositorio GitHub según lo pedido en el PDF.
+
+RNF8. Escalabilidad:
+La estructura de clases debe permitir agregar más salas o más funciones sin reescribir completamente el sistema.
+El manejo de asientos debe permitir ampliar la matriz si el número de sillas cambia.
 
 ## Plan de proyecto
 La descripción de las actividades, el cronograma y el presupuesto con horas programadas se encuentra en el archivo de excel "Presupuesto cinema".
